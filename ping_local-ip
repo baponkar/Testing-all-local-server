@@ -1,0 +1,32 @@
+#!/bin/bash
+# Author : Bapon Kar
+# Date : 23/12/2018
+# Description : This script tries to ping all local sever to test either running or not
+# Modified date : 23/12/2018
+
+
+touch local-ip.txt
+t=0
+
+while [[ $t -ne 235 ]]
+do
+	t=$[ $t + 1 ];
+	ip=192.168.1.$t
+	echo $ip>>local-ip.txt
+done
+
+
+
+for ip in `cat local-ip.txt`
+
+do
+	ping -c1 $ip &> /dev/null
+	if [[ $? -eq 0 ]]
+	then
+	 echo -e  "\t\e[1;32m$ip ping PASSED \e[0m\n"
+	else
+	 echo -e "\t\e[1;31m $ip ping FAILED \e[0m\n"
+	fi
+done 
+
+rm -r local-ip.txt
